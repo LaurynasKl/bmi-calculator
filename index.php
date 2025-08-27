@@ -1,58 +1,26 @@
 <?php
 
-
-$gender = $_GET['gender'];
-$age = $_GET['age'];
-$height = $_GET['height'];
-$weight = $_GET['weight'];
-
-
+$gender = $_GET['gender'] ?? null;
+$age = $_GET['age'] ?? null;
+$height = $_GET['height'] ?? null;
+$weight = $_GET['weight'] ?? null;
+$bmi = false;
 
 
+if ($height && $weight) {
+    $height = number_format($height / 100, 2, '.') ** 2;
+    $bmi = true;
+    $bmi = number_format(($weight / $height), 2);
+}
 
+if ($bmi && $bmi <= 18.5) {
+    $answer = "Your BMI is {$bmi} = Underweight";
+} elseif ($bmi > 18.5 && $bmi <= 24.9) {
+    $answer = "Your BMI is {$bmi} = Healthy Weight";
+} elseif ($bmi >= 25 && $bmi <= 29.9) {
+    $answer = "Your BMI is {$bmi} = Overweight";
+} elseif ($bmi >= 30) {
+    $answer = "Your BMI is {$bmi} = Obese";
+}
 
-
-
-echo '<pre>';
-var_dump($_GET);
-echo '</pre>';
-?>
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI calculator</title>
-</head>
-
-<body>
-
-    <form action="#" method="get">
-
-        <select name="gender" id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
-
-        <label for="age">Enter your age:</label>
-        <input type="text" id="age" name="age">
-
-        <label for="height">Enter your height(kg):</label>
-        <input type="number" id="height" name="height">
-
-        <label for="weight">Enter your weight(cm):</label>
-        <input type="number" id="weight" name="weight">
-
-        <button type="submit">Calculate</button>
-    </form>
-
-
-
-</body>
-
-</html>
+require('view/index.view.php');
